@@ -1,0 +1,49 @@
+---
+apiVersion: v1alpha1
+kind: Pipeline
+metadata:
+  name: 'REPLACE_WITH_YOUR_APP_ID'
+  namespace: 'REPLACE_WITH_YOUR_NAMESPACE'
+spec:
+  selector:
+    matchLabels:
+      app: 'REPLACE_WITH_YOUR_APP_ID'
+  template:
+    metadata:
+      name: 'REPLACE_WITH_YOUR_APP_ID'
+      labels:
+        app: 'REPLACE_WITH_YOUR_APP_ID'
+    secrets:
+      -  'ADD_YOUR_REGISTRY_CREDENTIALS_SECRET'
+    stages:
+      - name: Build Image
+        type: docker_build
+      - name: Perform Unit Test
+        type: command
+        params:
+            command:
+                - go
+                - test
+      - name: Perform CI test
+        type: command
+        params:
+          command:
+            - 'ADD_YOUR_COMMAND_HERE'
+      - name: Push image to registry
+        type: docker_publish
+        params:
+          external_registry: gcr.io
+          external_image_name: 'REPLACE_WITH_APP_IMAGE_NAME':{{.KONTINUOUS_BRANCH}}
+          require_credentials: TRUE
+      - name: Wait for Confirmation
+        type: wait
+​
+      - name: Deploy Application Services to Kubernetes
+        type: deploy
+        params:
+          deploy_dir: k8s/services
+​
+      - name: Deploy Application to Kubernetes
+        type: deploy
+        params:
+          deploy_dir: k8s/{{.KONTINUOUS_BRANCH}}
