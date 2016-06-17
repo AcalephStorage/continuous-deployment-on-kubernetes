@@ -94,7 +94,7 @@ You'll now use Kontinuous to define and run a pipeline that will test, build, an
 	Secret: base64-encoded-secret
    ```
 
- More details found [here.] (https://github.com/AcalephStorage/kontinuous/tree/master/cli)
+ More details found [here](https://github.com/AcalephStorage/kontinuous/tree/master/cli)
 
 
 ### Phase 1. Create initial .pipeline.yml using Kontinuous-cli
